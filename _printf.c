@@ -1,69 +1,40 @@
-#include "holberton.h"
+#include "main.h"
 #include <stdarg.h>
-#include <unistd.h>
-
 /**
- * _printf - A custom implementation of printf
- * @format: The format string containing the characters and format specifiers
+ * _printf - A simplified version of printf
+ * @format: The format string containing
+ * the characters and the format specifiers
  *
- * Return: The number of characters printed (excluding the null byte)
+ * Return: The length of the output
  */
 int _printf(const char *format, ...)
 {
-    va_list args;
-    int count = 0;
-    const char *ptr;
+	int i = 0;
+	unsigned int len = 0;
+	va_list args;
 
-    va_start(args, format);
+	va_start(args, format);
+	while (format[i])
+	{
+		if (format[i] == '%' && format[i + 1] == 'c')
+			len += _putchar(va_arg(args, int)), i += 2;
 
-    for (ptr = format; *ptr != '\0'; ptr++)
-    {
-        if (*ptr == '%')
-        {
-            ptr++;
+		else if (format[i] == '%' && format[i + 1] == 's')
+			len += print_string(va_arg(args, char *)), i += 2;
 
-            if (*ptr == 'c')
-            {
-                char c = va_arg(args, int);
-                write(1, &c, 1);
-                count++;
-            }
-            else if (*ptr == 's')
-            {
-                char *s = va_arg(args, char *);
+		else if (format[i] == '%' && format[i + 1] == '%')
+			len += _putchar('%'), i += 2;
 
-                if (s == NULL)
-                {
-                    s = "(null)";
-                }
+		else if (format[i] == '%' && format[i + 1] == '\0')
+			len--, i++;
 
-                while (*s != '\0')
-                {
-                    write(1, s, 1);
-                    s++;
-                    count++;
-                }
-            }
-            else if (*ptr == '%')
-            {
-                write(1, "%", 1);
-                count++;
-            }
-            else
-            {
-                write(1, ptr - 1, 2);
-                count += 2;
-            }
-        }
-        else
-        {
-            write(1, ptr, 1);
-            count++;
-        }
-    }
+		else if (format[i] == '%' && (format[i + 1] == 'd' || format[i + 1] == 'i'))
+			len += print_number(va_arg(args, int)), i += 2;
 
-    va_end(args);
-
-    return (count);
+		else
+			len += _putchar(format[i]), i++;
+	}
+	va_end(args);
+	return (len);
 }
 

@@ -1,74 +1,74 @@
-.TH _PRINTF 3 "July 28, 2024" "1.0" "Custom Library Functions"
-
+.\" Manpage for _printf function
+.TH _PRINTF 3 "November 2024" "Holberton School" "C Library Functions"
 .SH NAME
-_printf \- custom formatted output conversion
-
-.SH LIBRARY
-.B #include "main.h"
-
+_printf \- produces output according to a specified format.
 .SH SYNOPSIS
 .B int _printf(const char *format, ...);
-
 .SH DESCRIPTION
-The
-.B _printf
-function produces output according to a format string, mimicking the standard library's printf function.
-This custom implementation supports the following format specifiers:c, s, d, i
+The \fB_printf\fR function produces output to the standard output stream (stdout) based on a given format string. The function handles the following format specifiers:
 
-.SH Conversion specifiers
-d, i - The int argument is converted to signed decimal notation.
+- \fBc\fR: Outputs a single character. The corresponding argument must be an integer that can be cast to \fBchar\fR.
+- \fBs\fR: Outputs a string. The corresponding argument must be a pointer to a null-terminated string.
+- \fB%\fR: Outputs a literal percent sign.
+- \fBd\fR: Outputs a signed decimal integer (int). The corresponding argument must be an integer.
+- \fBi\fR: Outputs a signed decimal integer (int). The corresponding argument must be an integer.
 
-c - The int argument is converted to an unsigned char
-
-s - The const char * argument is expected to be a pointer to an array of character type (pointer to a string).
-
-% - '%' is written.
-
-.SH RETURN VALUE
-The
-.B _printf
-function returns the number of characters printed (excluding the null byte used to end output to strings).
-
+The function returns the number of characters printed (excluding the null byte used to end output strings). If an error occurs, it returns \fB-1\fR.
 .SH EXAMPLES
-Example Code 1:
+To print a character:
+.nf
+_printf("Hello %c", 'A');
+.fi
+Output:
+.nf
+Hello A
+.fi
+Returned Value: 6 (number of characters printed)
 
+To print a string:
+.nf
+_printf("Hello %s", "World");
+.fi
+Output:
+.nf
+Hello World
+.fi
+Returned Value: 12 (number of characters printed)
 
-#include "main.h"
+To print a percent sign:
+.nf
+_printf("Discount is 10%% off!");
+.fi
+Output:
+.nf
+Discount is 10% off!
+.fi
+Returned Value: 23 (number of characters printed)
 
+To print an integer:
+.nf
+_printf("The number is %d", 42);
+.fi
+Output:
+.nf
+The number is 42
+.fi
+Returned Value: 18 (number of characters printed)
 
-int main(void)
+To print another integer:
+.nf
+_printf("The number is %i", -42);
+.fi
+Output:
+.nf
+The number is -42
+.fi
+Returned Value: 18 (number of characters printed)
 
-{
-
-_printf("Character: %c\n", 'H');
-
-_printf("String: %s\n", "Hello, world!");
-
-_printf("Integer: %d\n", 42);
-
-
-return (0);
-
-}
-
-
-Example Code 2:
-
-
-#include "main.h"
-
-int main(void)
-
-{
-
-_printf("%d", 5, 6, 7, "hello");
-
-
-return (0);
-
-}
-
-
-In example Code 2 printf("%d", 5, 6, 7, "hello"); will print 5, but the presence of the extra arguments is problematic and can lead to undefined behavior.
-It's important to ensure that the number of format specifiers matches the number of arguments provided to avoid such issues.
+.SH NOTES
+This implementation does not handle flags, field width, precision, or length modifiers. It only processes the conversion specifiers \fBc\fR, \fBs\fR, \fB%\fR, \fBd\fR, and \fBi\fR.
+.SH AUTHOR
+Developed as part of the Holberton School project.
+.SH COPYRIGHT
+(c) 2024 Holberton School. All rights reserved.
 
